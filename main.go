@@ -24,7 +24,6 @@ type TunnelsMap struct {
 
 func NewTunnelsMap() *TunnelsMap {
 	return &TunnelsMap{
-		mu:      sync.RWMutex{},
 		tunnels: make(map[int]chan Tunnel),
 	}
 }
@@ -65,9 +64,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 
 	tunnel, ok := tunnels.Get(id)
 	if !ok {
-		if _, err := w.Write([]byte("tunnel not found")); err != nil {
-			log.Fatalln(err)
-		}
+		http.Error(w, "tunnel not found", http.StatusNotFound)
 		return
 	}
 
@@ -82,7 +79,8 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 
 func handleSSHSession(s ssh.Session) {
 	id := rand.Intn(math.MaxInt)
-	tunnels.Put(id, make(chan Tunnel))
+	tunnelCh := make(chan Tunnel)
+	tunnels.Put(id, tunnelCh)
 
 	log.Println("tunnel ID ->", id)
 
