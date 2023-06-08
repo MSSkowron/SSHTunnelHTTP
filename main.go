@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"io"
 	"log"
 	"math"
@@ -46,16 +47,20 @@ func (tm *TunnelsMap) Get(id int) (chan Tunnel, bool) {
 var tunnels = NewTunnelsMap()
 
 func main() {
-	go startHTTPServer()
+	httpPortFlag := flag.String("http", "3000", "HTTP port")
+	sshPortFlag := flag.String("ssh", "2222", "SSH port")
+	flag.Parse()
+
+	go startHTTPServer(*httpPortFlag)
 
 	ssh.Handle(handleSSHSession)
 
-	log.Fatal(ssh.ListenAndServe(":2222", nil))
+	log.Fatal(ssh.ListenAndServe(":"+*sshPortFlag, nil))
 }
 
-func startHTTPServer() {
+func startHTTPServer(port string) {
 	http.HandleFunc("/", handleRequest)
-	log.Fatal(http.ListenAndServe(":3000", nil))
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
 func handleRequest(w http.ResponseWriter, r *http.Request) {

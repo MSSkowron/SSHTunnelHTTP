@@ -16,13 +16,7 @@ Follow these steps to install the project:
    git clone https://github.com/MSSkowron/ssh-tunnel-http.git
    ```
 
-2. Install _gliderlabs_ SSH package:
-
-   ```
-   go get github.com/gliderlabs/ssh
-   ```
-
-3. Change to the project directory:
+2. Change to the project directory:
 
    ```
    cd ssh-tunnel-http
@@ -63,3 +57,29 @@ The SSH server will be listening on port 2222, and the HTTP server will be liste
   ```
 
   This will retrieve the data from tunnel ID 12345 and return it as the response.
+
+- **Flags**
+
+  The following flags can be used to configure the application:
+
+  - `http`: Specifies the port number for the HTTP server. By default, it is set to 3000. To change the port number, use the flag followed by the desired port number.
+
+    Example:
+
+    ```
+    go run main.go -http 8080
+    ```
+
+    This will run the HTTP server on port 8080 instead of the default port 3000.
+
+  - `ssh`: Specifies the port number for the SSH server. By default, it is set to 2222. To change the port number, use the flag followed by the desired port number.
+
+    Example:
+
+    ```
+    go run main.go -ssh 22222
+    ```
+
+    This will run the SSH server on port 22222 instead of the default port 2222.
+
+  Remember to include these flags when running the application to customize the port numbers as needed.
