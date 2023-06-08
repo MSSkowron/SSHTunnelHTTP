@@ -16,7 +16,13 @@ Follow these steps to install the project:
    git clone https://github.com/MSSkowron/ssh-tunnel-http.git
    ```
 
-2. Change to the project directory:
+2. Install _gliderlabs_ SSH package:
+
+   ```
+   go get github.com/gliderlabs/ssh
+   ```
+
+3. Change to the project directory:
 
    ```
    cd ssh-tunnel-http
